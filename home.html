@@ -1,0 +1,60 @@
+<HTML>
+        <HEAD>
+            <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+            <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+            <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+            <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>      
+           <TITLE>My Music Finder</TITLE>
+        </HEAD>
+        <BODY>
+           <P id="title" align="center">Benvenuti in...</P>
+           <p> Are you ready to search for some amazing artists?! Then search for them!</p>
+           <form name="lookArtistsForm" id="Artists" action="result.html" method="GET">
+               <input type="search" name="test" id="searchArtists" minlength="3" placeholder="Cerca l'artista!" required >
+               <button id="theButton">Try it</button>
+            </form>
+           
+           <div id="id1">
+        
+           </div>
+
+           <script type="text/javascript">
+           /*
+            Script di testing per cambiare il titolo con quanto scritto sotto. Funzione in jQuery 
+           */
+               $(document).click(function() {
+                   $('p#title').html("<h2>MY MUSIC FINDER</h2>");
+               }); 
+           </script>
+                
+           <script type="text/javascript">
+        
+               var artistLocal = {};
+               var museAbsolution = "";
+               var lastfm = new LastFM({
+                   apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                   apiSecret : '341b8690cb2f80336f49ba5bae9b5b69',
+                   cache     : null
+                 });
+                 var artistToLook = 'Linkin+Park';
+              lastfm.artist.getInfo(
+                   {artist: artistToLook}, 
+                   { success: function(data) {
+                         //museAbsolution = data;
+                         //console.log(data.artist.name);
+                         artistLocal.name = data.artist.name;
+                         artistLocal.bio = data.artist.bio.content;
+                        // $("div").html("<h1> " + data.artist.name + "</h1>" + "<br/>" + data.artist.bio.content); //jQuery
+        
+                   }, 
+               error: function(code, message) {
+                   console.log(message);
+               }});
+        
+             // console.log(artistLocal);
+           
+           </script>
+    
+        </BODY>
+</HTML>
+        

@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+        <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+        <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+        <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
+   <TITLE>My first HTML document</TITLE>
+</HEAD>
+<BODY>
+    <div id="id1">
+        <p id="title" align="center"></p>
+        <p id="description"></p>
+    </div>
+        <script type="text/javascript">
+            function findGetParameter(parameterName) {
+                var result = "";
+                tmp = [];
+                location.search.substr(1).split("&").forEach(function (item) {
+                  tmp = item.split("=");
+                  if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                });
+            return result;
+        }
+        </script>
+
+        <script type="text/javascript"> 
+            function cleanString(toClean) {
+                return toClean.replace(/[^a-zA-Z\u00C0-\u00F6\u00F8-\u00FF]/g, ' ');
+            }
+        </script>
+
+        <script type="text/javascript">
+        </script>
+
+        <script type="text/javascript">
+            
+                   var artistLocal = {};
+                   var lastfm = new LastFM({
+                       apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                       apiSecret : '341b8690cb2f80336f49ba5bae9b5b69',
+                       cache     : null
+                     });
+                   var artistToLook = function(paramName) {
+                       var test = findGetParameter(paramName);
+                       return cleanString(test);
+                   }
+  /*                 $(document).ready(function(){
+                      result = findGetParameter('test');
+                      artistToLook= cleanString(result);
+                     });*/
+                  lastfm.artist.getInfo(
+                       {artist: artistToLook('test')}, 
+                       { success: function(data) {
+                             //museAbsolution = data;
+                             console.log(data);
+                             artistLocal.name = data.artist.name;
+                             artistLocal.bio = data.artist.bio.content;
+                             $("p#title").html("<h1> " + data.artist.name + "</h1>" + "<br/>"); //jQuery
+                             $("p#description").html(data.artist.bio.content);
+            
+                       }, 
+                   error: function(code, message) {
+                       console.log(message);
+                   }});
+            
+                 // console.log(artistLocal);
+               
+               </script>
+        
+</BODY>
+</HTML>
