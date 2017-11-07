@@ -22,11 +22,17 @@
            /*
             Script di testing per cambiare il titolo con quanto scritto sotto. Funzione in jQuery 
            */
+
+           //$(document) = $() è l'invocatore di jQuery e prende in input principalmente un oggetto.
+           // .click() = reagisce quando nel DOM c'è un click. Prende in input una funzione.
+           // $('p#title) = "tra tutti i <p>, cercami quello con id "title"...
+           // .html() = ... e modificami il suo HTML con la stringa che ti sto passando
                $(document).click(function() {
                    $('p#title').html("<h2>MY MUSIC FINDER</h2>");
                }); 
            </script>
                 
+    
         </BODY>
 </HTML>
         
