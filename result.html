@@ -12,6 +12,9 @@
         <p id="description"></p>
     </div>
         <script type="text/javascript">
+        /*
+        Sinceramente non lo so, l'ho presa da Stack Overflow cercando come prendere i parametri di una GET
+        */
             function findGetParameter(parameterName) {
                 var result = "";
                 tmp = [];
@@ -24,47 +27,53 @@
         </script>
 
         <script type="text/javascript"> 
+        /*
+         Potrebbe capitare che il parametro preso dalla GET non sia pulito e potrebbe avere segni come &, -, +
+         etc. Per questo motivo, la pulisco con una regex
+         */
             function cleanString(toClean) {
                 return toClean.replace(/[^a-zA-Z\u00C0-\u00F6\u00F8-\u00FF]/g, ' ');
             }
         </script>
 
         <script type="text/javascript">
-        </script>
-
-        <script type="text/javascript">
             
-                   var artistLocal = {};
+                   var artistLocal = {}; // Oggetto vuoto. Non so neanche se tenerlo, intanto lo lascio qui...
+
+                   // Questo è invece l'oggetto che contiene tutto il necessario per poter cercare brani, artisti, album etc
+
                    var lastfm = new LastFM({
-                       apiKey    : Can't share this in pubblic sorry :( ,
-                       apiSecret : Can't share this in pubblic sorry :( ,
+                       apiKey    : Sorry can't share in pubblic :( ,
+                       apiSecret : Sorry can't share in pubblic :( ,
                        cache     : null
                      });
+                   
+                    // Il nome della variabile dice tutto. Il contenuto della funzione pure 
                    var artistToLook = function(paramName) {
                        var test = findGetParameter(paramName);
                        return cleanString(test);
                    }
-  /*                 $(document).ready(function(){
-                      result = findGetParameter('test');
-                      artistToLook= cleanString(result);
-                     });*/
+
+                   // A questo punto comincio a prendere quello che mi serve
                   lastfm.artist.getInfo(
-                       {artist: artistToLook('test')}, 
+                       {artist: artistToLook('test')},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                       //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
+                       // Se tutto va a buon fine, allora...
                        { success: function(data) {
-                             //museAbsolution = data;
-                             console.log(data);
-                             artistLocal.name = data.artist.name;
-                             artistLocal.bio = data.artist.bio.content;
-                             $("p#title").html("<h1> " + data.artist.name + "</h1>" + "<br/>"); //jQuery
-                             $("p#description").html(data.artist.bio.content);
+                             
+                             console.log(data); // Debug: mi accerto che abbia preso il JSON giusto.
+                             artistLocal.name = data.artist.name; //Assegno il nome all'artista prendendolo dal JSON
+                             artistLocal.bio = data.artist.bio.content; //Come sopra ma per la biografia
+                             $("p#title").html("<h1> " + data.artist.name + "</h1>" + "<br/>"); //Sostituisco l'html di questo paragrafo con il nome dell'artista
+                             $("p#description").html(data.artist.bio.content); // Come sopra ma per la biografia
             
                        }, 
+                    // In caso di errore, si printa il messaggio di errore
                    error: function(code, message) {
                        console.log(message);
                    }});
             
-                 // console.log(artistLocal);
-               
+//In pratica, è come se fosse un try-catch               
                </script>
         
 </BODY>
