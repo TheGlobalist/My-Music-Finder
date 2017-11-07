@@ -27,34 +27,6 @@
                }); 
            </script>
                 
-           <script type="text/javascript">
-        
-               var artistLocal = {};
-               var museAbsolution = "";
-               var lastfm = new LastFM({
-                   apiKey    : Can't share this in pubblic sorry :( ,
-                   apiSecret : Can't share this in pubblic sorry :( ,
-                   cache     : null
-                 });
-                 var artistToLook = 'Linkin+Park';
-              lastfm.artist.getInfo(
-                   {artist: artistToLook}, 
-                   { success: function(data) {
-                         //museAbsolution = data;
-                         //console.log(data.artist.name);
-                         artistLocal.name = data.artist.name;
-                         artistLocal.bio = data.artist.bio.content;
-                        // $("div").html("<h1> " + data.artist.name + "</h1>" + "<br/>" + data.artist.bio.content); //jQuery
-        
-                   }, 
-               error: function(code, message) {
-                   console.log(message);
-               }});
-        
-             // console.log(artistLocal);
-           
-           </script>
-    
         </BODY>
 </HTML>
         
