@@ -5,34 +5,55 @@
             <script type="text/javascript" src="scripts/lastfm.api.js"></script>
             <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>      
            <TITLE>My Music Finder</TITLE>
+            <h1 id="titolo">Benvenuti in...</h1>
+            <style type="text/css">
+                #titolo{color: white; font-size: 40px; font-family: cursive; text-align: center}
+            </style>
         </HEAD>
         <BODY>
-           <P id="title" align="center">Benvenuti in...</P>
-           <p> Are you ready to search for some amazing artists?! Then search for them!</p>
-           <form name="lookArtistsForm" id="Artists" action="result.html" method="GET">
-               <input type="search" name="test" id="searchArtists" minlength="3" placeholder="Cerca l'artista!" required >
-               <button id="theButton">Try it</button>
-            </form>
-           
-           <div id="id1">
-        
+        <style type="text/css">
+            body{/*background-color: chartreuse;*/  background: linear-gradient(red, orange, yellow, green, blue, indigo, violet); }
+            #sea{ font-size: 20px; font-family: fantasy; text-align: center}
+            #div1{text-align: center}
+            #modulo{text-align: center}
+            #foot{text-align: right; margin-right: auto; font-size: 15px}
+            #logo{position: absolute; left:0px; top: 0px; z-index: 0} 
+            #copia{}
+            #credits{color: cadetblue}
+        </style>
+        <div id="id1">
+           <br><a href="home.html" target="_blank"><img src="mmflogo.png" width="150" height="140" id="logo"></a>
+           <p id="sea"> Are you ready to search for some amazing artists?! Then search for them!</p>
+           <form name="lookArtistsForm" id="modulo" action="result.html" method="GET">
+               <fieldset style="display: inline-block">
+                   <legend>Search</legend>
+                   
+                   <input type="search" name="test" id="searchArtists" minlength="3" placeholder="Cerca l'artista!" required >
+                   
+                   <button id="theButton">Try it</button>
+                   <input type="reset" id="rese" value="Nope">
+               </fieldset>
+            </form>     
            </div>
+           <hr id="separa">
+            <div id="foot">   
+                <p> &reg; My Music Finder</p> 
+            </div>
+            <div id="copia" style="text-align:center;">
+                    <marquee behavior= "alternate" direction="left" scrollamount="10" onmouseover="stop()"onmouseout="start()" height="36"               width="512" > 
+                    <span runat="server" ID="credits" style="width:3000px ;">© Kevin Velasco &amp; Giammarco Forcella 2017</span></marquee>
+            </div>
+
 
            <script type="text/javascript">
            /*
             Script di testing per cambiare il titolo con quanto scritto sotto. Funzione in jQuery 
            */
-
-           //$(document) = $() è l'invocatore di jQuery e prende in input principalmente un oggetto.
-           // .click() = reagisce quando nel DOM c'è un click. Prende in input una funzione.
-           // $('p#title) = "tra tutti i <p>, cercami quello con id "title"...
-           // .html() = ... e modificami il suo HTML con la stringa che ti sto passando
                $(document).click(function() {
                    $('p#title').html("<h2>MY MUSIC FINDER</h2>");
                }); 
            </script>
                 
-    
         </BODY>
 </HTML>
         
