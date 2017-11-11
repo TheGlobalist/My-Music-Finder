@@ -11,6 +11,9 @@
         <p id="title" align="center"></p>
         <p id="description"></p>
     </div>
+
+
+
         <script type="text/javascript">
         /*
         Sinceramente non lo so, l'ho presa da Stack Overflow cercando come prendere i parametri di una GET
@@ -22,8 +25,19 @@
                   tmp = item.split("=");
                   if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
                 });
+                console.log(cleanString(result));
             return result;
         }
+        </script>
+
+        <script type="text/javascript">
+        function image(data) {
+             var img = document.createElement("IMG");
+             img.src = data;
+             $('#title').before("<img src='" + data + "'>");
+        }
+        
+        
         </script>
 
         <script type="text/javascript"> 
@@ -32,7 +46,7 @@
          etc. Per questo motivo, la pulisco con una regex
          */
             function cleanString(toClean) {
-                return toClean.replace(/[^a-zA-Z\u00C0-\u00F6\u00F8-\u00FF]/g, ' ');
+                return toClean.replace(/[^a-zA-Z0-9\u00C0-\u00F6\u00F8-\u00FF]/g, ' ');
             }
         </script>
 
@@ -43,8 +57,8 @@
                    // Questo è invece l'oggetto che contiene tutto il necessario per poter cercare brani, artisti, album etc
 
                    var lastfm = new LastFM({
-                       apiKey    : Sorry can't share in pubblic :( ,
-                       apiSecret : Sorry can't share in pubblic :( ,
+                       apiKey    : Sorry :( ,
+                       apiSecret : Sorry :(  ,
                        cache     : null
                      });
                    
@@ -63,14 +77,20 @@
                              
                              console.log(data); // Debug: mi accerto che abbia preso il JSON giusto.
                              artistLocal.name = data.artist.name; //Assegno il nome all'artista prendendolo dal JSON
-                             artistLocal.bio = data.artist.bio.content; //Come sopra ma per la biografia
+                             artistLocal.bio = data.artist.bio.summary; //Come sopra ma per la biografia
+                             artistLocal.img = data.artist.image[2]['#text'];
                              $("p#title").html("<h1> " + data.artist.name + "</h1>" + "<br/>"); //Sostituisco l'html di questo paragrafo con il nome dell'artista
-                             $("p#description").html(data.artist.bio.content); // Come sopra ma per la biografia
+                             $("p#description").html(data.artist.bio.summary); // Come sopra ma per la biografia
+                             image(artistLocal.img);
+
             
                        }, 
                     // In caso di errore, si printa il messaggio di errore
                    error: function(code, message) {
+                       console.log("Sono andato in errore");
+                       $("p#description").html(message + "<br/> Maybe you typed it in a wrong way?");
                        console.log(message);
+                       //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
                    }});
             
 //In pratica, è come se fosse un try-catch               
