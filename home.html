@@ -6,15 +6,18 @@
             <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>      
            <TITLE>My Music Finder</TITLE>
             
-            <link rel="stylesheet" href="design/dec.css" style="text/css">
+            <link rel="stylesheet" href="design/deco.css" style="text/css">
         
-            <h1 id="titolo">Benvenuti in...</h1>
+            <h1 id="titolo">Benvenuti in...My Music Finder </h1>
             
         </HEAD>
+
         <BODY>
+        
         <div id="id1">
-           <br><a href="home.html" target="_blank"><img src="mmflogo.png" width="150" height="140" id="logo"></a>
+           <br><a href="home.html" target= "_parent"><img src="mmflogo.png" width="150" height="140" id="logo"></a>
            <p id="sea"> Are you ready to search for some amazing artists?! Then search for them!</p>
+            <br>
            <form name="lookArtistsForm" id="modulo" action="result.html" method="GET">
                <fieldset style="display: inline-block">
                    <legend>Search</legend>
@@ -22,20 +25,26 @@
                    <input type="search" name="test" id="searchArtists" minlength="2" placeholder="Cerca l'artista!" required >
                    
                    <button id="theButton">Try it</button>
-                   <input type="reset" id="rese" value="Nope">
+                   <input type="reset" id="rese" value="Wrote Wrong">
+                   <br><br>
+                   <input id="artista" type="radio" name="ric" value="Artista" checked>Artista
+                   <input id="brano" type="radio" name="ric" value="Brano">Brano
+                   <input id="album" type="radio" name="ric" value="Album">Album<br>
+                   <br>
                </fieldset>
-            </form>     
+            </form><br>
            </div>
            <hr id="separa">
+            
             <div id="foot">   
                 <p> &reg; My Music Finder</p> 
             </div>
+            <br>
             <div id="copia" style="text-align:center;">
                     <marquee behavior= "alternate" direction="left" scrollamount="10" onmouseover="stop()"onmouseout="start()" height="36"               width="512" > 
                     <span runat="server" ID="credits" style="width:3000px ;">© Kevin Velasco &amp; Giammarco Forcella 2017</span></marquee>
             </div>
-
-
+            
            <script type="text/javascript">
            /*
             Script di testing per cambiare il titolo con quanto scritto sotto. Funzione in jQuery 
