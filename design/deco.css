@@ -23,15 +23,20 @@ html {
 BODY{
 }
 
+#premilo{
+    background: none;
+    border: none;
+}
+
 #searchArtists {
-    color: black;
-    background: url("../lupa.png") no-repeat;
+    /*background: url("../lupa.png") no-repeat;*/
     font-size: 15px;
     height: 40px;
-    margin-right: 12px;
+    margin-right:  none;
     outline: medium none;
     padding: 0 0 0 35px;
     text-shadow: 1px 1px 0 white;
+    text-align: center;
 }
 
 #sea{
@@ -61,7 +66,7 @@ BODY{
     display: block;
     margin: 0 auto;
     width: 30%;
-    height: 40%;
+    height: 44%;
 }
 
 #credits{
