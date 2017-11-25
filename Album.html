@@ -28,6 +28,14 @@
                 <p id="title" align="center"></p>
                 <p id="description"></p>
             </div>
+
+            <script type="text/javascript">
+                function image(data, title) {
+                    var img = document.createElement("IMG");
+                    img.src = data;
+                    $('p#title').html(title + "<p style='text-align:center;'><img src='" + data + "'></p>");
+                }
+            </script>
         
             <div class="container">
                 <div id="block1" class="col">
@@ -64,23 +72,23 @@
                                cache     : null
                              });
                            
-                             var albumToLook = "Rushism";
+                             var albumToLook = localStorage.albumToLook;
                             // Il nome della variabile dice tutto. Il contenuto della funzione pure 
-                           var artistToLook = function(paramName) {
-                               var test = findGetParameter(paramName);
-                               return cleanString(test);
-                           }
+                           var artistToLook = localStorage.artist;
         
                            // A questo punto comincio a prendere quello che mi serve
 
-                          lastfm.album.search(
+                          lastfm.album.getInfo(
                                {album: albumToLook,
+                                artist: artistToLook
                                 },  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
                                //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
                                // Se tutto va a buon fine, allora...
                                { success: function(data) {
-                                   $albumList = data.results.albummatches;
-                                   console.log($albumList);    
+                                   console.log(data);
+                                   var title = "<h1> " + data.album.name + " (" + data.album.artist + ") " + "</h1>" + "<br/>";
+                                   image(data.album.image[3]['#text'], title);
+                                   $("p#description").html(data.album.wiki.summary);
                                }, 
                             // In caso di errore, si printa il messaggio di errore
                            error: function(code, message) {
