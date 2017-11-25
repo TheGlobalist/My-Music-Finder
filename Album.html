@@ -1,0 +1,96 @@
+<HTML>
+        <HEAD>
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+                <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+                <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+                <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
+           <TITLE>My Music Finder</TITLE>
+        </HEAD>
+        <BODY>
+         <style>
+        div.container{
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: none;
+            margin-bottom: none;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        
+        div.col {
+            float: left;
+            width: 33%;
+        }
+        
+         </style>   
+            <div id="id1">
+                <p id="title" align="center"></p>
+                <p id="description"></p>
+            </div>
+        
+            <div class="container">
+                <div id="block1" class="col">
+                        <p id="TopAlbums" align="center"> <h2> Top Five Albums </h2></p>
+                        
+                                <ol id="listaTopAlbum">
+                        
+                                </ol>
+                </div>
+        
+                <div id="block2" class="col">
+                        <p id="TopTracks" align="center"> <h2> Top Ten Tracks </h2></p>        
+                        <ol id="listaTopTracks">
+                        </ol>
+                </div>
+        
+                <div id="block3" class="col">
+                        <p id="WhereToBuy" align="center"> <h2> Where to buy </h2></p>        
+                        <ol id="listaWhereToBuy">
+                        </ol>
+                </div>
+            </div>
+    
+        
+                <script type="text/javascript">
+                    
+                           var artistLocal = {}; // Oggetto vuoto. Non so neanche se tenerlo, intanto lo lascio qui...
+        
+                           // Questo è invece l'oggetto che contiene tutto il necessario per poter cercare brani, artisti, album etc
+        
+                           var lastfm = new LastFM({
+                               apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                               apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
+                               cache     : null
+                             });
+                           
+                             var albumToLook = "Rushism";
+                            // Il nome della variabile dice tutto. Il contenuto della funzione pure 
+                           var artistToLook = function(paramName) {
+                               var test = findGetParameter(paramName);
+                               return cleanString(test);
+                           }
+        
+                           // A questo punto comincio a prendere quello che mi serve
+
+                          lastfm.album.search(
+                               {album: albumToLook,
+                                },  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                               //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
+                               // Se tutto va a buon fine, allora...
+                               { success: function(data) {
+                                   $albumList = data.results.albummatches;
+                                   console.log($albumList);    
+                               }, 
+                            // In caso di errore, si printa il messaggio di errore
+                           error: function(code, message) {
+                               console.log("Sono andato in errore");
+                               $("p#description").html(message + "<br/> Maybe you typed it in a wrong way?");
+                               console.log(message);
+                               //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
+                           }});
+                     </script>
+                
+        </BODY>
+        </HTML>
+        
