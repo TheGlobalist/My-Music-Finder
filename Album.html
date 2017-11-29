@@ -26,7 +26,7 @@
          </style>   
             <div id="id1">
                 <p id="title" align="center"></p>
-                <p id="description"></p>
+                <p id="description" align="center"></p>
             </div>
 
             <script type="text/javascript">
@@ -39,17 +39,11 @@
         
             <div class="container">
                 <div id="block1" class="col">
-                        <p id="TopAlbums" align="center"> <h2> Top Five Albums </h2></p>
+                        <p id="tracklistParagraph" align="center"> <h2> Tracklist </h2></p>
                         
-                                <ol id="listaTopAlbum">
+                                <ol id="tracklist">
                         
                                 </ol>
-                </div>
-        
-                <div id="block2" class="col">
-                        <p id="TopTracks" align="center"> <h2> Top Ten Tracks </h2></p>        
-                        <ol id="listaTopTracks">
-                        </ol>
                 </div>
         
                 <div id="block3" class="col">
@@ -88,8 +82,21 @@
                                    console.log(data);
                                    var title = "<h1> " + data.album.name + " (" + data.album.artist + ") " + "</h1>" + "<br/>";
                                    image(data.album.image[3]['#text'], title);
-                                   $("p#description").html(data.album.wiki.summary);
-                               }, 
+                                   console.log('wiki' in data);
+                                   
+                                   /*
+                                   Ok ora altro problema: bisogna gestire quando non c'è descrizione.
+                                Tecnicamente questo dovrebbe funzionare, tanto che il console.log sopra 
+                                 ritorna false, però a questo blocco if-else non piace :/
+                                 */
+                            if (typeof data.album.wiki !== 'undefined') {
+                                 $("p#description").html(data.album.wiki.summary);
+                               } else {
+                                $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
+                            }
+                             setTracklist(data.album.tracks.track);
+                                 iTunesLinkSetter();                                    
+                             }, 
                             // In caso di errore, si printa il messaggio di errore
                            error: function(code, message) {
                                console.log("Sono andato in errore");
@@ -98,6 +105,30 @@
                                //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
                            }});
                      </script>
+
+<script type="text/javascript">
+    //Scope che conterrà le funzioni per popolare la pagina
+
+    function setTracklist(tracklist) {
+        if (tracklist.length === 0) {
+            $('#tracklist').html('Stiamo avendo problemi nel caricare la tracklist. Riprova più tardi');
+        }
+        for (var i = 0; i < tracklist.length; i++) {
+            var timeInSeconds = tracklist[i]['duration'];
+            var tmp = Math.floor((parseFloat(timeInSeconds) / 60)) + ":" + (timeInSeconds % 60 ? timeInSeconds % 60 : '00');
+            $('#tracklist').append('<li> ' + tracklist[i]['name'] + " (" + tmp + ") " + '</li><br/>');
+        }
+    }
+
+    function iTunesLinkSetter() {
+        $.getJSON('https://itunes.apple.com/search?term=' + localStorage.artist + '&limit=5&country=it&entity=musicTrack', function(data) {
+        console.log(data);
+        $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );});
+    }
+
+
+
+    </script>
                 
         </BODY>
         </HTML>

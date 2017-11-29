@@ -13,11 +13,6 @@
         </HEAD>
 
         <BODY>
-
-        <div id="id0">
-            <button id="bottone" style="text-align: left">Click me</button>
-        </div>
-
         <script type="text/javascript">
             $('div#id0').click(function() {
                 console.log($('div#id0').html());
@@ -29,13 +24,9 @@
            <p id="sea"> Are you ready to search for some amazing artists?! Then search for them!</p>
             <br>
             <div id="id2">
-            <!-- div in cui verrà mostrata la preview--->
+            <!-- div in cui verrà mostrata la preview-->
             </div>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("div#id2").hide();
-                })
-            </script>
+ 
            <form name="lookArtistsForm" id="modulo" action="result.html" method="GET">
                <fieldset style="display: inline-block">
                    <legend>Search</legend>
@@ -67,22 +58,12 @@
             </div>
             
            <script type="text/javascript">
-           /*
-            Script di testing per cambiare il titolo con quanto scritto sotto. Funzione in jQuery 
-           */
+
 
            </script>
 
            <script type="text/javascript">
 
-           //Salva le scelte
-/*
-            $(document).submit( function() {
-                console.log($('#searchArtists').val());
-                localStorage.querySearch = $('#searchArtists').val()
-                localStorage.selection =  $("#testRadio input[type='radio']:checked").val()
-            });
-*/
             $(document).on("click", " .testingClass", function() {
                 var tmp = $(this).attr('id');
                 var artist = tmp.split('-')[0];
@@ -93,7 +74,6 @@
                 alert(localStorage.artist);
             });
 
-            //Se stai guardando gli album, mostrali. Altrimenti, imposta subito il nuovo link per l'action.
 
             $('#testRadio').click(function(){
                 if ($("#testRadio input[type='radio']:checked").val() === "Album") {
