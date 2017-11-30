@@ -31,15 +31,15 @@
         
             <div class="container">
                 <div id="block1" class="col">
-                        <p id="TopAlbums" align="center"> <h2> Top Five Albums </h2></p>
+                        <p id="albumsParagraph" align="center"> <h2> Seen on... </h2></p>
                         
-                                <ol id="listaTopAlbum">
+                                <ol id="albumSong">
                         
                                 </ol>
                 </div>
         
                 <div id="block2" class="col">
-                        <p id="TopTracks" align="center"> <h2> Top Ten Tracks </h2></p>        
+                        <p id="TopTracks" align="center"> <h2> The Artist </h2></p>        
                         <ol id="listaTopTracks">
                         </ol>
                 </div>
@@ -73,11 +73,11 @@
         
                 <script type="text/javascript">
         
-                function image(data) {
+                 function image(data, title) {
                      var img = document.createElement("IMG");
                      img.src = data;
-                     $('#title').before("<p style='text-align:center;'><img src='" + data + "'></p>");
-                }
+                     $('p#title').html(title + "<p style='text-align:center;'><img src='" + data + "'></p>");
+                 }
                 </script>
         
                 <script type="text/javascript">
@@ -130,74 +130,41 @@
                                apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
                                cache     : null
                              });
-                           
-                            // Il nome della variabile dice tutto. Il contenuto della funzione pure 
-                           var artistToLook = function(paramName) {
-                               var test = findGetParameter(paramName);
-                               return cleanString(test);
-                           }
-        
+
+                             var artistToLook = localStorage.artist;
+                             var trackToLook = localStorage.thingToLook;
+
                            // A questo punto comincio a prendere quello che mi serve
 
-                          lastfm.album.getInfo(
-                              {album: albumToLook('test')},
+                          lastfm.track.getInfo(
+                              {track: trackToLook,
+                               artist: artistToLook },
                               { success: function(data) {
                                   console.log(data);
+                                  var title = "<h1> " + data.track.name + " -  " + data.track.artist['name'] + "</h1>" + "<br/>";
+                                  image(data.track.album.image[2]['#text'], title);
+                                  if (typeof data.track.wiki !== 'undefined') {
+                                      $("p#description").html(data.track.wiki.summary);
+                                  } else {
+                                      $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
+                                  }
+                                  $('#albumSong').append('<li> ' + data.track.album.title + '<br/>' +  "<img src='" + data.track.album.image[2]['#text'] + "'>" + '</li><br/');
+                                  iTunesLinkSetter();
                               }},
-                          )
-                          lastfm.album.getInfo(
-                               {artist: albumToLook('test')},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
-                               //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
-                               // Se tutto va a buon fine, allora...
-                               { success: function(data) {
-                                   console.log(data);    
-                               }, 
-                            // In caso di errore, si printa il messaggio di errore
-                           error: function(code, message) {
-                               console.log("Sono andato in errore");
-                               $("p#description").html(message + "<br/> Maybe you typed it in a wrong way?");
-                               console.log(message);
-                               //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
-                           }});
-                           
-                           lastfm.artist.getTopAlbums(
-                            {artist: artistToLook('test')},  
-                            { success: function(data) {
-        
-                                var topFive = getTopFive(data);   
-                                for (var i = 0; i < 5; i++) {
-                                    $('#listaTopAlbum').append('<li> ' + topFive[i][0] + '<br/>' +  "<img src='" + topFive[i][1] + "'>" + '</li><br/');
-                                }
-                 
-                            }, 
-         
-                        error: function(code, message) {
-         
-                        }});
-        
-                        lastfm.artist.getTopTracks(
-                            {artist: artistToLook('test')},  
-                            { success: function(data) {
-                                var topTen = getTopTen(data);
-                                for (var i = 0; i < 10; i++) {
-                                    $('#listaTopTracks').append('<li> ' + topTen[i] + '<br/></li>');
-                                }
-        
-                            }, 
-         
-                        error: function(code, message) {
-         
-                        }});
-        
+                              {error: function(code, message) {
+                                  console.log("Oh no!");
+                              }
+                              });
+                          
+                    
                         </script>
         
                         <script type="text/javascript">
-        
-                        $.getJSON('https://itunes.apple.com/search?term=muse&limit=5&country=it&entity=musicTrack', function(data) {
-                            console.log(data);
-                            $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );
-                        });
-        
+                          function iTunesLinkSetter() {
+                               $.getJSON('https://itunes.apple.com/search?term=' + localStorage.artist + '&limit=5&country=it&entity=musicTrack', function(data) {
+                                console.log(data);
+                                $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );});
+                            }
                         </script>
                            
                     

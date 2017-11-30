@@ -66,7 +66,7 @@
                                cache     : null
                              });
                            
-                             var albumToLook = localStorage.albumToLook;
+                             var albumToLook = localStorage.thingToLook;
                             // Il nome della variabile dice tutto. Il contenuto della funzione pure 
                            var artistToLook = localStorage.artist;
         
@@ -114,9 +114,8 @@
             $('#tracklist').html('Stiamo avendo problemi nel caricare la tracklist. Riprova più tardi');
         }
         for (var i = 0; i < tracklist.length; i++) {
-            var timeInSeconds = tracklist[i]['duration'];
-            var tmp = Math.floor((parseFloat(timeInSeconds) / 60)) + ":" + (timeInSeconds % 60 ? timeInSeconds % 60 : '00');
-            $('#tracklist').append('<li> ' + tracklist[i]['name'] + " (" + tmp + ") " + '</li><br/>');
+            var time = calculateTime(tracklist[i]['duration']);
+            $('#tracklist').append('<li> ' + tracklist[i]['name'] + " (" + time + ") " + '</li><br/>');
         }
     }
 
@@ -126,7 +125,21 @@
         $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );});
     }
 
-
+    function calculateTime(timeInSeconds) {
+        var mins = 0;
+        var secs = 0;
+        while (timeInSeconds > 0) {
+            timeInSeconds -= 60;
+            if (timeInSeconds < 0) {
+                timeInSeconds += 60
+                secs = timeInSeconds;
+                break;
+            }
+            mins += 1;
+        }
+        secs = secs < 10 ? "0" + String(secs) : secs;
+        return String(mins) + ":" + String(secs);
+    }
 
     </script>
                 

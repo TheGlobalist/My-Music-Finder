@@ -64,21 +64,42 @@
 
            <script type="text/javascript">
 
+           $('html').bind('keypress', function(e) {
+               if(e.keyCode == 13) {
+                   return false;
+                }
+            });
+
             $(document).on("click", " .testingClass", function() {
                 var tmp = $(this).attr('id');
                 var artist = tmp.split('-')[0];
-                var album = tmp.split('-')[1];
-                alert("The artist is " + artist + " and the album is " + album);
+                var toSearch = tmp.split('-')[1];
+                alert("The artist is " + artist + " and the album or track is " + toSearch);
                 localStorage.artist = artist;
-                localStorage.albumToLook = album;
-                alert(localStorage.artist);
+                localStorage.thingToLook = toSearch;
             });
 
 
             $('#testRadio').click(function(){
-                if ($("#testRadio input[type='radio']:checked").val() === "Album") {
-                    proposeAlbum($('#searchArtists').val());
+
+                if ($('#searchArtists').val() === "") {
+                    alert("Inserisci un valore nella barra di ricerca");
+                    return false;
                 }
+
+                var chooser = $("#testRadio input[type='radio']:checked").val();
+                var argToSearch = $('#searchArtists').val();
+                switch (chooser) {
+                    case "Album":
+                        proposeAlbum(argToSearch);
+                        break;
+                    case "Brano":
+                        proposeTrack(argToSearch);
+                        break;
+                    default:
+                        break;
+                }
+
                 $('form').attr('action', $("#testRadio input[type='radio']:checked").val() + ".html")
  
             })
@@ -90,6 +111,40 @@
                     $('div#id2').empty();
                     $('div#id2').html('<p id="title" style="align-content: center;"></p>');
                 });
+
+                $('input[name=ric]').click(function() {
+                    $('div#id2').empty();
+                    $('div#id2').html('<p id="title" style="align-content: center;"></p>');
+                })
+           </script>
+
+           <script type="text/javascript">
+                var lastfm = new LastFM({
+                    apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                    apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
+                    cache     : null
+                });
+           
+
+                function proposeTrack(trackOfInterest) {
+                    lastfm.track.search(
+                        {track:trackOfInterest},
+                        {success: function(data) {
+                            console.log(data);
+                            $tracks = data.results.trackmatches.track;
+                            for(var i = 0; i < 10; i++) {
+                                if (i == 4) {
+                                    $('div#id2').append("<a href='Brano.html'><img src='" + $tracks[4]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[4]['artist'] + "-" + $tracks[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
+                                } else {
+                                    $('div#id2').append("<a href='Brano.html'><img src='" + $tracks[i]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[i]['artist'] + "-" + $tracks[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
+                                }
+                            }
+                        } },
+                        {error: function(code, message) {
+                            console.log("Oh no!");
+                        }
+                        });
+                }
            </script>
 
            <script type="text/javascript">
@@ -100,8 +155,7 @@
                              });
                 function proposeAlbum(albumOfInterest) {
                     lastfm.album.search(
-                               {album: albumOfInterest,
-                                },  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                               {album: albumOfInterest},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
                                //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
                                // Se tutto va a buon fine, allora...
                                { success: function(data) {
