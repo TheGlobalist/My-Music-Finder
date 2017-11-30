@@ -71,12 +71,17 @@
             });
 
             $(document).on("click", " .testingClass", function() {
-                var tmp = $(this).attr('id');
-                var artist = tmp.split('-')[0];
-                var toSearch = tmp.split('-')[1];
-                alert("The artist is " + artist + " and the album or track is " + toSearch);
-                localStorage.artist = artist;
-                localStorage.thingToLook = toSearch;
+                if ($("#testRadio input[type='radio']:checked").val() === "Artista") {
+                    var tmp= $(this).attr('id');
+                    localStorage.artist = tmp;
+                } else {
+                    var tmp = $(this).attr('id');
+                    var artist = tmp.split('-')[0];
+                    var toSearch = tmp.split('-')[1];
+                    alert("The artist is " + artist + " and the album or track is " + toSearch);
+                    localStorage.artist = artist;
+                    localStorage.thingToLook = toSearch;
+                }
             });
 
 
@@ -97,7 +102,7 @@
                         proposeTrack(argToSearch);
                         break;
                     default:
-                        break;
+                        proposeArtist(argToSearch);
                 }
 
                 $('form').attr('action', $("#testRadio input[type='radio']:checked").val() + ".html")
@@ -118,6 +123,34 @@
                 })
            </script>
 
+           <script type="text/javascript">
+                var lastfm = new LastFM({
+                    apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                    apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
+                    cache     : null
+                });
+            
+            function proposeArtist(artistOfInterest) {
+                lastfm.artist.search(
+                    {artist: artistOfInterest},
+                    {success: function(data) {
+                        console.log(data);
+                        $artists = data.results.artistmatches.artist;
+                        for(var i = 0; i < 10; i++) {
+                            if (i == 4) {
+                                $('div#id2').append("<a href='Artista.html'><img src='" + $artists[4]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
+                            } else {
+                                $('div#id2').append("<a href='Artista.html'><img src='" + $artists[i]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
+                            }
+                        }
+                    }},
+                    {error: function(code, message) {
+                        console.log("Oh no!");
+                    }}
+                );
+            }
+            
+            </script>
            <script type="text/javascript">
                 var lastfm = new LastFM({
                     apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',

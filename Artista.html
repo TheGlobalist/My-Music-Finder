@@ -51,27 +51,7 @@ div.col {
         </div>
     </div>
 
-
-    
- 
-
-
-
-
-        <script type="text/javascript">
-
-            function findGetParameter(parameterName) {
-                var result = "";
-                tmp = [];
-                location.search.substr(1).split("&").forEach(function (item) {
-                  tmp = item.split("=");
-                  if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
-                });
-            return result;
-        }
-        </script>
-
-        <script type="text/javascript">
+       <script type="text/javascript">
 
         function image(data) {
              var img = document.createElement("IMG");
@@ -132,14 +112,11 @@ div.col {
                      });
                    
                     // Il nome della variabile dice tutto. Il contenuto della funzione pure 
-                   var artistToLook = function(paramName) {
-                       var test = findGetParameter(paramName);
-                       return cleanString(test);
-                   }
+                   var artistToLook = localStorage.artist;
 
                    // A questo punto comincio a prendere quello che mi serve
                   lastfm.artist.getInfo(
-                       {artist: artistToLook('test')},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                       {artist: artistToLook},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
                        //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
                        // Se tutto va a buon fine, allora...
                        { success: function(data) {
@@ -163,7 +140,7 @@ div.col {
                    }});
                    
                    lastfm.artist.getTopAlbums(
-                    {artist: artistToLook('test')},  
+                    {artist: artistToLook},  
                     { success: function(data) {
 
                         var topFive = getTopFive(data);   
@@ -178,7 +155,7 @@ div.col {
                 }});
 
                 lastfm.artist.getTopTracks(
-                    {artist: artistToLook('test')},  
+                    {artist: artistToLook},  
                     { success: function(data) {
                         var topTen = getTopTen(data);
                         for (var i = 0; i < 10; i++) {
