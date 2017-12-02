@@ -5,49 +5,41 @@
                 <script type="text/javascript" src="scripts/lastfm.api.js"></script>
                 <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
            <TITLE>My Music Finder</TITLE>
+            <link rel="stylesheet" href="design/linkBrano.css" type="text/css">
         </HEAD>
         <BODY>
-         <style>
-        div.container{
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: none;
-            margin-bottom: none;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-        
-        div.col {
-            float: left;
-            width: 33%;
-        }
-        
-         </style>   
-            <div id="id1">
+          <div id="id1">
                 <p id="title" align="center"></p>
+              <fieldset>
                 <p id="description"></p>
+              </fieldset>
             </div>
         
             <div class="container">
                 <div id="block1" class="col">
+                    <fieldset id="fSeen">
                         <p id="albumsParagraph" align="center"> <h2> Seen on... </h2></p>
                         
                                 <ol id="albumSong">
                         
                                 </ol>
+                    </fieldset>
                 </div>
         
                 <div id="block2" class="col">
+                    <fieldset id="top">
                         <p id="TopTracks" align="center"> <h2> The Artist </h2></p>        
                         <ol id="listaTopTracks">
                         </ol>
+                    </fieldset>
                 </div>
         
                 <div id="block3" class="col">
+                    <fieldset id="where">
                         <p id="WhereToBuy" align="center"> <h2> Where to buy </h2></p>        
                         <ol id="listaWhereToBuy">
                         </ol>
+                    </fieldset>
                 </div>
             </div>
         
@@ -148,7 +140,7 @@
                                   } else {
                                       $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
                                   }
-                                  $('#albumSong').append('<li> ' + data.track.album.title + '<br/>' +  "<img src='" + data.track.album.image[2]['#text'] + "'>" + '</li><br/');
+                                  $('#albumSong').append('<li> ' + data.track.album.title + '<br/>' +  "<img src='" + data.track.album.image[2]['#text'] + "'>" + '</li><br/>');
                                   iTunesLinkSetter();
                               }},
                               {error: function(code, message) {

@@ -5,49 +5,42 @@
         <script type="text/javascript" src="scripts/lastfm.api.js"></script>
         <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
    <TITLE>My Music Finder</TITLE>
+    <link rel="stylesheet" href="design/linkArtista.css" type="text/css">
 </HEAD>
 <BODY>
- <style>
-div.container{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: none;
-    margin-bottom: none;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
 
-div.col {
-    float: left;
-    width: 33%;
-}
-
- </style>   
     <div id="id1">
         <p id="title" align="center"></p>
-        <p id="description"></p>
+        <fieldset>
+            <p id="description"></p>
+        </fieldset>
     </div>
 
     <div class="container">
         <div id="block1" class="col">
+            <fieldset id="topAlbum">
                 <p id="TopAlbums" align="center"> <h2> Top Five Albums </h2></p>
                 
                         <ol id="listaTopAlbum">
                 
                         </ol>
+            </fieldset>
         </div>
 
         <div id="block2" class="col">
+            <fieldset id="top">
                 <p id="TopTracks" align="center"> <h2> Top Ten Tracks </h2></p>        
                 <ol id="listaTopTracks">
                 </ol>
+            </fieldset>
         </div>
 
         <div id="block3" class="col">
+            <fieldset id="compra">
                 <p id="WhereToBuy" align="center"> <h2> Where to buy </h2></p>        
                 <ol id="listaWhereToBuy">
                 </ol>
+            </fieldset>
         </div>
     </div>
 
@@ -145,7 +138,7 @@ div.col {
 
                         var topFive = getTopFive(data);   
                         for (var i = 0; i < 5; i++) {
-                            $('#listaTopAlbum').append('<li> ' + topFive[i][0] + '<br/>' +  "<img src='" + topFive[i][1] + "'>" + '</li><br/');
+                            $('#listaTopAlbum').append('<li> ' + topFive[i][0] + '<br/>' +  "<img src='" + topFive[i][1] + "'>" + '</li><br/>');
                         }
          
                     }, 

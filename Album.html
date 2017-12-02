@@ -5,28 +5,18 @@
                 <script type="text/javascript" src="scripts/lastfm.api.js"></script>
                 <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
            <TITLE>My Music Finder</TITLE>
+            <link rel="stylesheet" href="design/linkAlbum.css" type="text/css">
         </HEAD>
         <BODY>
-         <style>
-        div.container{
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: none;
-            margin-bottom: none;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-        
-        div.col {
-            float: left;
-            width: 33%;
-        }
-        
-         </style>   
+            <!-- bottone per andare alla home -->
+                <a href="home.html" target= "_parent"><img src="mmflogo.png" width="115" height="120" id="logo"></a>
+            
+           
             <div id="id1">
                 <p id="title" align="center"></p>
-                <p id="description" align="center"></p>
+                <fieldset>
+                <p id="description"></p>
+                </fieldset>
             </div>
 
             <script type="text/javascript">
@@ -39,17 +29,22 @@
         
             <div class="container">
                 <div id="block1" class="col">
-                        <p id="tracklistParagraph" align="center"> <h2> Tracklist </h2></p>
+        
+                    <fieldset id="canzoni">
+                        <p id="tracklistParagraph"> <h2 id="track"> Tracklist </h2></p>
                         
                                 <ol id="tracklist">
                         
                                 </ol>
+                    </fieldset>
                 </div>
         
                 <div id="block3" class="col">
-                        <p id="WhereToBuy" align="center"> <h2> Where to buy </h2></p>        
+                    <fieldset id="compra">
+                        <p id="WhereToBuy" align="center"> <h2 id="where"> Where to buy </h2></p>        
                         <ol id="listaWhereToBuy">
                         </ol>
+                    </fieldset>
                 </div>
             </div>
     
