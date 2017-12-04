@@ -14,9 +14,7 @@
 
         <BODY>
         <script type="text/javascript">
-            $('div#id0').click(function() {
-                console.log($('div#id0').html());
-            })
+            $('div#id2').hide();
         </script>
         
         <div id="id1">
@@ -136,11 +134,12 @@
                     {success: function(data) {
                         console.log(data);
                         $artists = data.results.artistmatches.artist;
+                        $('div#id2').show();
                         for(var i = 0; i < 10; i++) {
                             if (i == 4) {
-                                $('div#id2').append("<a href='Artista.html'><img src='" + $artists[4]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
+                                $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[4]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[4]['name'] + "' style=' width: 10%; margin-bottom: 0.5em;'/></a><br/>");
                             } else {
-                                $('div#id2').append("<a href='Artista.html'><img src='" + $artists[i]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
+                                $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[i]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[i]['name'] + "' style=' width: 10%; margin-bottom: 0.5em;'/></a>");
                             }
                         }
                     }},
@@ -164,12 +163,13 @@
                         {track:trackOfInterest},
                         {success: function(data) {
                             console.log(data);
+                            $('div#id2').show();
                             $tracks = data.results.trackmatches.track;
                             for(var i = 0; i < 10; i++) {
                                 if (i == 4) {
-                                    $('div#id2').append("<a href='Brano.html'><img src='" + $tracks[4]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[4]['artist'] + "-" + $tracks[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
+                                    $('div#id2').append("<a href='Brano.html' title ='" + $tracks[i].name +"'><img src='" + $tracks[4]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[4]['artist'] + "-" + $tracks[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
                                 } else {
-                                    $('div#id2').append("<a href='Brano.html'><img src='" + $tracks[i]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[i]['artist'] + "-" + $tracks[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
+                                    $('div#id2').append("<a href='Brano.html' title='" + $tracks[i].name +"'><img src='" + $tracks[i]['image'][3]['#text'] + "' class='testingClass' id='" + $tracks[i]['artist'] + "-" + $tracks[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
                                 }
                             }
                         } },
@@ -201,11 +201,11 @@
                                     
                                     if (i==4)
                                     {
-                                        $('div#id2').append("<a href='Album.html'><img src='" + $albums[4]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[4]['artist'] + "-" + $albums[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
+                                        $('div#id2').append("<a href='Album.html' title='" + $albums[i].name + "'><img src='" + $albums[4]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[4]['artist'] + "-" + $albums[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
                                     }
                                     else
                                     {   //<p id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + ">
-                                        $('div#id2').append("<a href='Album.html'><img src='" + $albums[i]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
+                                        $('div#id2').append("<a href='Album.html' title='" + $albums[i].name +"'><img src='" + $albums[i]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
                                     }
                                    } 
                                    console.log($('div#id2').attr('name'));

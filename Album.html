@@ -90,7 +90,7 @@
                                 $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
                             }
                              setTracklist(data.album.tracks.track);
-                                 iTunesLinkSetter();                                    
+                                 iTunesLinkSetter();
                              }, 
                             // In caso di errore, si printa il messaggio di errore
                            error: function(code, message) {
@@ -112,6 +112,8 @@
             var time = calculateTime(tracklist[i]['duration']);
             $('#tracklist').append('<li> ' + tracklist[i]['name'] + " (" + time + ") " + '</li><br/>');
         }
+    
+
     }
 
     function iTunesLinkSetter() {
