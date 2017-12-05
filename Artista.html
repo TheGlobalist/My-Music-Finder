@@ -1,0 +1,179 @@
+<HTML>
+<HEAD>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+        <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+        <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+        <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
+   <TITLE>My Music Finder</TITLE>
+    <link rel="stylesheet" href="design/linkArtista.css" type="text/css">
+</HEAD>
+<BODY>
+       <a href="home.html" target= "_parent"><img src="mmflogo.png" width="115" height="120" id="logo"></a>
+    <div id="id1">
+        <p id="title" align="center"></p>
+        <fieldset>
+            <p id="description"></p>
+        </fieldset>
+    </div>
+
+    <div class="container">
+        <div id="block1" class="col">
+            <fieldset id="topAlbum">
+                <p id="TopAlbums" align="center"> <h2> Top Five Albums </h2></p>
+                
+                        <ol id="listaTopAlbum">
+                
+                        </ol>
+            </fieldset>
+        </div>
+
+        <div id="block2" class="col">
+            <fieldset id="top">
+                <p id="TopTracks" align="center"> <h2> Top Ten Tracks </h2></p>        
+                <ol id="listaTopTracks">
+                </ol>
+            </fieldset>
+        </div>
+
+        <div id="block3" class="col">
+            <fieldset id="compra">
+                <p id="WhereToBuy" align="center"> <h2> Where to buy </h2></p>        
+                <ol id="listaWhereToBuy">
+                </ol>
+            </fieldset>
+        </div>
+    </div>
+
+       <script type="text/javascript">
+
+        function image(data) {
+             var img = document.createElement("IMG");
+             img.src = data;
+             $('#title').before("<p style='text-align:center;'><img src='" + data + "'></p>");
+        }
+        </script>
+
+        <script type="text/javascript">
+        //Estrapola album top five
+        function getTopFive(jsonData) {
+            var toReturn = [];
+            for (var i = 0; i < 5; i++ ){
+                toReturn.push( 
+                               [ 
+                                jsonData.topalbums.album[i]['name'], 
+                                jsonData.topalbums.album[i]['image'][2]['#text']
+                               ]   
+                              );
+            }
+            return toReturn;
+        }
+
+        function getTopTen(jsonData) {
+            var toReturn = [];
+            for (var i = 0; i < 10; i++) {
+                toReturn.push( 
+                                jsonData.toptracks.track[i]['name']  
+                              );
+            }
+            return toReturn;
+        }
+        </script>
+        
+        
+        </script>
+
+        <script type="text/javascript"> 
+        /*
+         Potrebbe capitare che il parametro preso dalla GET non sia pulito e potrebbe avere segni come &, -, +
+         etc. Per questo motivo, la pulisco con una regex
+         */
+            function cleanString(toClean) {
+                return toClean.replace(/[^a-zA-Z0-9\u00C0-\u00F6\u00F8-\u00FF]/g, ' ');
+            }
+        </script>
+
+        <script type="text/javascript">
+            
+                   var artistLocal = {}; // Oggetto vuoto. Non so neanche se tenerlo, intanto lo lascio qui...
+
+                   // Questo è invece l'oggetto che contiene tutto il necessario per poter cercare brani, artisti, album etc
+
+                   var lastfm = new LastFM({
+                       apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                       apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
+                       cache     : null
+                     });
+                   
+                    // Il nome della variabile dice tutto. Il contenuto della funzione pure 
+                   var artistToLook = localStorage.artist;
+
+                   // A questo punto comincio a prendere quello che mi serve
+                  lastfm.artist.getInfo(
+                       {artist: artistToLook},  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                       //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
+                       // Se tutto va a buon fine, allora...
+                       { success: function(data) {
+                             
+                            // console.log(data); // Debug: mi accerto che abbia preso il JSON giusto.
+                             artistLocal.name = data.artist.name; //Assegno il nome all'artista prendendolo dal JSON
+                             artistLocal.bio = data.artist.bio.summary; //Come sopra ma per la biografia
+                             artistLocal.img = data.artist.image[3]['#text'];
+                             $("p#title").html("<h1> " + data.artist.name + "</h1>" + "<br/>"); //Sostituisco l'html di questo paragrafo con il nome dell'artista
+                             $("p#description").html(data.artist.bio.summary); // Come sopra ma per la biografia
+                             image(artistLocal.img);
+
+            
+                       }, 
+                    // In caso di errore, si printa il messaggio di errore
+                   error: function(code, message) {
+                       console.log("Sono andato in errore");
+                       $("p#description").html(message + "<br/> Maybe you typed it in a wrong way?");
+                       console.log(message);
+                       //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
+                   }});
+                   
+                   lastfm.artist.getTopAlbums(
+                    {artist: artistToLook},  
+                    { success: function(data) {
+
+                        var topFive = getTopFive(data);   
+                        for (var i = 0; i < 5; i++) {
+                            $('#listaTopAlbum').append('<li> ' + topFive[i][0] + '<br/>' +  "<img src='" + topFive[i][1] + "'>" + '</li><br/>');
+                        }
+         
+                    }, 
+ 
+                error: function(code, message) {
+ 
+                }});
+
+                lastfm.artist.getTopTracks(
+                    {artist: artistToLook},  
+                    { success: function(data) {
+                        var topTen = getTopTen(data);
+                        for (var i = 0; i < 10; i++) {
+                            $('#listaTopTracks').append('<li> ' + topTen[i] + '<br/></li>');
+                        }
+
+                    }, 
+ 
+                error: function(code, message) {
+ 
+                }});
+
+                </script>
+
+                <script type="text/javascript">
+
+                $.getJSON('https://itunes.apple.com/search?term=muse&limit=5&country=it&entity=musicTrack', function(data) {
+                    console.log(data);
+                    $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );
+                });
+
+                </script>
+                   
+            
+               </script>
+        
+</BODY>
+</HTML>
