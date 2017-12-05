@@ -1,0 +1,145 @@
+<HTML>
+        <HEAD>
+                <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+                <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+                <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+                <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>       
+           <TITLE>My Music Finder</TITLE>
+            <link rel="stylesheet" href="design/linkAlbum.css" type="text/css">
+        </HEAD>
+        <BODY>
+            <!-- bottone per andare alla home -->
+                <a href="home.html" target= "_parent"><img src="mmflogo.png" width="115" height="120" id="logo"></a>
+            
+           
+            <div id="id1">
+                <p id="title" align="center"></p>
+                <fieldset>
+                <p id="description"></p>
+                </fieldset>
+            </div>
+
+            <script type="text/javascript">
+                function image(data, title) {
+                    var img = document.createElement("IMG");
+                    img.src = data;
+                    $('p#title').html(title + "<p style='text-align:center;'><img src='" + data + "'></p>");
+                }
+            </script>
+        
+            <div class="container">
+                <div id="block1" class="col">
+        
+                    <fieldset id="canzoni">
+                        <p id="tracklistParagraph"> <h2 id="track"> Tracklist </h2></p>
+                        
+                                <ol id="tracklist">
+                        
+                                </ol>
+                    </fieldset>
+                </div>
+        
+                <div id="block3" class="col">
+                    <fieldset id="compra">
+                        <p id="WhereToBuy" align="center"> <h2 id="where"> Where to buy </h2></p>        
+                        <ol id="listaWhereToBuy">
+                        </ol>
+                    </fieldset>
+                </div>
+            </div>
+    
+        
+                <script type="text/javascript">
+                    
+                           var artistLocal = {}; // Oggetto vuoto. Non so neanche se tenerlo, intanto lo lascio qui...
+        
+                           // Questo è invece l'oggetto che contiene tutto il necessario per poter cercare brani, artisti, album etc
+        
+                           var lastfm = new LastFM({
+                               apiKey    : '007bb7dc4b7d8eef22dddd17427dc720',
+                               apiSecret : '341b8690cb2f80336f49ba5bae9b5b69' ,
+                               cache     : null
+                             });
+                           
+                             var albumToLook = localStorage.thingToLook;
+                            // Il nome della variabile dice tutto. Il contenuto della funzione pure 
+                           var artistToLook = localStorage.artist;
+        
+                           // A questo punto comincio a prendere quello che mi serve
+
+                          lastfm.album.getInfo(
+                               {album: albumToLook,
+                                artist: artistToLook
+                                },  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
+                               //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
+                               // Se tutto va a buon fine, allora...
+                               { success: function(data) {
+                                   console.log(data);
+                                   var title = "<h1> " + data.album.name + " (" + data.album.artist + ") " + "</h1>" + "<br/>";
+                                   image(data.album.image[3]['#text'], title);
+                                   console.log('wiki' in data);
+                                   
+                                   /*
+                                   Ok ora altro problema: bisogna gestire quando non c'è descrizione.
+                                Tecnicamente questo dovrebbe funzionare, tanto che il console.log sopra 
+                                 ritorna false, però a questo blocco if-else non piace :/
+                                 */
+                            if (typeof data.album.wiki !== 'undefined') {
+                                 $("p#description").html(data.album.wiki.summary);
+                               } else {
+                                $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
+                            }
+                             setTracklist(data.album.tracks.track);
+                                 iTunesLinkSetter();
+                             }, 
+                            // In caso di errore, si printa il messaggio di errore
+                           error: function(code, message) {
+                               console.log("Sono andato in errore");
+                               $("p#description").html(message + "<br/> Maybe you typed it in a wrong way?");
+                               console.log(message);
+                               //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
+                           }});
+                     </script>
+
+<script type="text/javascript">
+    //Scope che conterrà le funzioni per popolare la pagina
+
+    function setTracklist(tracklist) {
+        if (tracklist.length === 0) {
+            $('#tracklist').html('Stiamo avendo problemi nel caricare la tracklist. Riprova più tardi');
+        }
+        for (var i = 0; i < tracklist.length; i++) {
+            var time = calculateTime(tracklist[i]['duration']);
+            $('#tracklist').append('<li> ' + tracklist[i]['name'] + " (" + time + ") " + '</li><br/>');
+        }
+    
+
+    }
+
+    function iTunesLinkSetter() {
+        $.getJSON('https://itunes.apple.com/search?term=' + localStorage.artist + '&limit=5&country=it&entity=musicTrack', function(data) {
+        console.log(data);
+        $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );});
+    }
+
+    function calculateTime(timeInSeconds) {
+        var mins = 0;
+        var secs = 0;
+        while (timeInSeconds > 0) {
+            timeInSeconds -= 60;
+            if (timeInSeconds < 0) {
+                timeInSeconds += 60
+                secs = timeInSeconds;
+                break;
+            }
+            mins += 1;
+        }
+        secs = secs < 10 ? "0" + String(secs) : secs;
+        return String(mins) + ":" + String(secs);
+    }
+
+    </script>
+                
+        </BODY>
+        </HTML>
+        

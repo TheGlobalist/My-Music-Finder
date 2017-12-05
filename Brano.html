@@ -29,8 +29,8 @@
         
                 <div id="block2" class="col">
                     <fieldset id="top">
-                        <p id="TopTracks" align="center"> <h2> The Artist </h2></p>        
-                        <ol id="listaTopTracks">
+                        <p id="TheArtist" align="center"> <h2> The Artist </h2></p>        
+                        <p id="artistDescription" align="center"> </p>
                         </ol>
                     </fieldset>
                 </div>
@@ -141,8 +141,12 @@
                                   } else {
                                       $("p#description").html("Sorry, there's no description available: perhaps this is a DVD?");
                                   }
-                                  $('#albumSong').append('<li> ' + data.track.album.title + '<br/>' +  "<img src='" + data.track.album.image[2]['#text'] + "'>" + '</li><br/>');
+                                  localStorage.artist = data.track.artist['name'];
+                                  localStorage.album = data.track.album.title;
+                                  $('#albumSong').append('<li> ' + data.track.album.title + '<br/>' +  "<a href='Album.html'><img src='" + data.track.album.image[2]['#text'] + "'></a>" + '</li><br/>');
                                   iTunesLinkSetter();
+                                  console.log(data.track.artist['name']);
+                                  artistSetter(data.track.artist['name']);
                               }},
                               {error: function(code, message) {
                                   console.log("Oh no!");
@@ -158,6 +162,10 @@
                                 console.log(data);
                                 $('#listaWhereToBuy').append( "<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> " );});
                             }
+                           function artistSetter(artist) {
+                               localStorage.artist = artist;
+                               $('p#artistDescription').html("<h2> <a href='Artista.html'>"  + artist + "</a></h2>");
+                           }
                         </script>
                            
                     

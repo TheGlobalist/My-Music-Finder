@@ -1,0 +1,77 @@
+html{
+    background: url("../crowd.jpg");
+    background-size: cover;
+}
+
+.container{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: none;
+    margin-bottom: none;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+#title{
+    font-family: cursive;
+}
+
+#description{
+    font-family: arial;
+    font-weight: bold;
+}
+
+.col{
+    float: left;
+    width: 33%;
+}
+
+#topAlbum{
+    margin-top: 0.5cm;
+    margin-right: 14px;
+    margin-left: 14px;
+    font-style: italic;
+    font-family: serif;
+}
+
+#top{
+    margin-top: 0.5cm;
+    margin-right: 14px;
+    margin-left: 14px;
+}
+
+#compra{
+    margin-top: 0.5cm;
+    margin-right: 14px;
+    margin-left: 14px;
+    font-style: italic;
+    font-family: serif;
+}
+
+#block1{
+    font-family: arial;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+#block2{
+    color: aliceblue;
+}
+
+#block3{
+    color: aliceblue;
+}
+
+#listaTopAlbum{
+    font-family: arial;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+#listaTopTracks{
+    font-style: italic;
+    font-family: bold;
+    font-size: 20px;
+    color: aliceblue;
+}

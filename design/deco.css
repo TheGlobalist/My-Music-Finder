@@ -23,6 +23,26 @@ html {
 BODY{
 }
 
+#id1{
+    text-align: center;
+    align-content: center;
+}
+
+
+#id2{
+    align-content: center;
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    float: right;
+}
+
+.testingClass{
+    text-align: center;
+    align-content: center;
+}
+
 #premilo{
     background: none;
     border: none;
@@ -46,9 +66,6 @@ BODY{
     color: antiquewhite;
 }
 
-#div1{
-    text-align: center;
-}
 
 #modulo{
     text-align: center;
@@ -72,3 +89,4 @@ BODY{
 #credits{
     color: wheat;
 }
+
