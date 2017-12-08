@@ -25,20 +25,20 @@
             <!-- div in cui verrà mostrata la preview-->
             </div>
  
-           <form name="lookArtistsForm" id="modulo" action="result.html" method="GET">
+           <form name="lookArtistsForm" id="modulo" action="" method="GET">
                <fieldset style="display: inline-block">
                    <legend>Search</legend>
                    
                    <input type="search" name="test" id="searchArtists" minlength="2" placeholder="Cosa stai cercando?" required >
                    <!--<img src="lupa.png">-->
-                   <button id="premilo"><img src="lupa.png"></button>
+                   <button id="premilo" class="divTest"><img src="lupa.png"></button>
                    <!--<button id="theButton">Try it</button> -->
                    <input type="reset" id="rese" value="Wrote Wrong">
                    <br><br>
                    <div id="testRadio">
-                   <input id="artista" type="radio" name="ric" value="Artista" >Artista
-                   <input id="brano" type="radio" name="ric" value="Brano" > Brano
-                   <input id="album" type="radio" name="ric" value="Album"  >Album<br>
+                   <input id="artista" type="radio" name="ric" value="Artista" required>Artista
+                   <input id="brano"  type="radio" name="ric" value="Brano" > Brano
+                   <input id="album" type="radio" name="ric" value="Album" >Album<br>
                    <br>
                 </div>
                </fieldset>
@@ -76,7 +76,6 @@
                     var tmp = $(this).attr('id');
                     var artist = tmp.split('-')[0];
                     var toSearch = tmp.split('-')[1];
-                    alert("The artist is " + artist + " and the album or track is " + toSearch);
                     localStorage.artist = artist;
                     localStorage.thingToLook = toSearch;
                 }
@@ -89,6 +88,15 @@
                     alert("Inserisci un valore nella barra di ricerca");
                     return false;
                 }
+            
+            $('button#premilo').click(function() {
+                if ($("#testRadio input[type='radio']:checked").val() === "") {
+                        alert("Seleziona cosa cercare");
+                        return false;
+            }});
+
+
+  
 
                 var chooser = $("#testRadio input[type='radio']:checked").val();
                 var argToSearch = $('#searchArtists').val();
@@ -132,7 +140,6 @@
                 lastfm.artist.search(
                     {artist: artistOfInterest},
                     {success: function(data) {
-                        console.log(data);
                         $artists = data.results.artistmatches.artist;
                         $('div#id2').show();
                         for(var i = 0; i < 10; i++) {
@@ -162,7 +169,6 @@
                     lastfm.track.search(
                         {track:trackOfInterest},
                         {success: function(data) {
-                            console.log(data);
                             $('div#id2').show();
                             $tracks = data.results.trackmatches.track;
                             for(var i = 0; i < 10; i++) {
@@ -193,9 +199,7 @@
                                // Se tutto va a buon fine, allora...
                                { success: function(data) {
                                    $("div#id2").show();
-                                   console.log(data);
                                    $albums = data.results.albummatches.album;
-                                   console.log($albums[0]['artist']);
                                    for (var i = 0; i < 10; i++) 
                                    {
                                     
@@ -208,7 +212,6 @@
                                         $('div#id2').append("<a href='Album.html' title='" + $albums[i].name +"'><img src='" + $albums[i]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
                                     }
                                    } 
-                                   console.log($('div#id2').attr('name'));
                                }, 
                             // In caso di errore, si printa il messaggio di errore
                            error: function(code, message) {
