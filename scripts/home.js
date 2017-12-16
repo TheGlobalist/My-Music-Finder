@@ -1,42 +1,62 @@
+
+var chooser = "";
+var id = "";
+
+
+//Seconda istruzione in jQuery.
+//In sostanza, scegliendo il tag <HTML>, proibisco (cioè 'bind') il keypress di qualcosa. Il qualcosa è il keyCode 13, ovvero "Enter"
 $('html').bind('keypress', function (e) {
-    if (e.keyCode == 13) {
-        return false;
+    if (e.keyCode == 13) { // Se ho premuto Enter...
+        return false; // ... ignoralo
     }
 });
 
+//Al click in qualsiasi posizione del documento, su un qualsiasi oggetto che abbia come classe "testingClass", avvia la seguente funzione anonima
 $(document).on("click", " .testingClass", function () {
-    if ($("#testRadio input[type='radio']:checked").val() === "Artista") {
-        var tmp = $(this).attr('id');
-        localStorage.artist = tmp;
+    chooser = $("#testRadio input[type='radio']:checked").val(); //Ottiene il valore del radio button spuntato
+    //Se la scelta fatta è uguale ad Artista (ovvero, l'unico che vuole un solo valore salvato nel local storage)...
+    if (chooser === "Artista") {
+        id = $(this).attr('id'); //Estrapolo dall'oggetto con classe "testingClass" appena clickato il suo id...
+        localStorage.artist = tmp; //...e lo metto nel localstorage
     } else {
-        var tmp = $(this).attr('id');
-        var artist = tmp.split('-')[0];
-        var toSearch = tmp.split('-')[1];
-        localStorage.artist = artist;
+        id = $(this).attr('id');  //Estrapolo dall'oggetto con classe "testingClass" appena clickato il suo id...
+        var artist = id.split('-')[0];  //Stavolta è però un id composto, del tipo artista-CosaDaCercare. Qui prendo il valore di destra dell'id...
+        var toSearch = id.split('-')[1]; //... E qui quello di sinistra
+        localStorage.artist = artist; // E salvo tutto nel local storage
         localStorage.thingToLook = toSearch;
     }
 });
 
-
+//jQuery di comodo. 
+//Sostanzialmente, controlla due cose al click sui radio e sulla nota musicale.
 $('#testRadio').click(function () {
 
-    if ($('#searchArtists').val() === "") {
+    chooser = $("#testRadio input[type='radio']:checked").val();
+    /* RADIO BUTTON */
+
+    //Se la scelta non è stata ancora fatta...
+
+    if (chooser === "") {
+        //Fa comunque saltare fuori un alert
         alert("Inserisci un valore nella barra di ricerca");
         return false;
     }
 
+    /* NOTA MUSICALE */
+
+    //Se la scelta non è stata ancora fatta...
     $('button#premilo').click(function () {
-        if ($("#testRadio input[type='radio']:checked").val() === "") {
+        if (chooser === "") {
+            //Fa comunque saltare fuori un alert
             alert("Seleziona cosa cercare");
             return false;
         }
+
+    //Nonostante ci sia il required nei radio button, un po' di "blocchi" in più non fanno mai male secondo me...
     });
 
-
-
-
-    var chooser = $("#testRadio input[type='radio']:checked").val();
-    var argToSearch = $('#searchArtists').val();
+    var argToSearch = $('#searchArtists').val(); //Si capisce dal nome della variabile. Prende fonte dalla search bar
+    //In base alla scelta, lo switch reindirizza per proporre la giusta cosa
     switch (chooser) {
         case "Album":
             proposeAlbum(argToSearch);
@@ -47,46 +67,49 @@ $('#testRadio').click(function () {
         default:
             proposeArtist(argToSearch);
     }
-
-    $('form').attr('action', $("#testRadio input[type='radio']:checked").val() + ".html")
+    //e poi, in ogni caso, inserisco l'action corrispondente a chooser nella form
+    $('form').attr('action', chooser + ".html")
 
 })
 
-
+//Ogni qualvolta viene premuto il bottone "Wrote Wrong", questo jQuery pulisce il contenuto del div id2
 $('input#rese').click(function () {
     $('div#id2').empty();
-    $('div#id2').html('<p id="title" style="align-content: center;"></p>');
+    $('div#id2').html('<p id="title" style="align-content: center;"></p>'); //e ci rimette l'HTML.
 });
 
+//Ogni qualvolta viene premuto un radio button, questo jQuery pulisce il contenuto del div id2
 $('input[name=ric]').click(function () {
     $('div#id2').empty();
     $('div#id2').html('<p id="title" style="align-content: center;"></p>');
 })
 
+//L'oggetto che mi permette di effettuare le chiamate a Last.FM
 var lastfm = new LastFM({
     apiKey: '007bb7dc4b7d8eef22dddd17427dc720',
     apiSecret: '341b8690cb2f80336f49ba5bae9b5b69',
     cache: null
 });
 
+//Funzione per la proposta dell'artista
 function proposeArtist(artistOfInterest) {
     lastfm.artist.search(
-        { artist: artistOfInterest },
+        { artist: artistOfInterest }, //Passo l'artista che mi interessa
         {
-            success: function (data) {
-                $artists = data.results.artistmatches.artist;
-                $('div#id2').show();
-                for (var i = 0; i < 10; i++) {
-                    if (i == 4) {
-                        $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[4]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[4]['name'] + "' style=' width: 10%; margin-bottom: 0.5em;'/></a><br/>");
-                    } else {
-                        $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[i]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[i]['name'] + "' style=' width: 10%; margin-bottom: 0.5em;'/></a>");
+            success: function (data) { //In caso di successo, in "data" sarà contenuto un JSON di risposta
+                $artists = data.results.artistmatches.artist; //Ne prendo quindi l'array contenente i risultati degli artisti
+                $('div#id2').show(); // mostro il div id2
+                for (var i = 0; i < 10; i++) { // e carico i primi dieci risultati, generando il title, estrapolando l'immagine e definendo la classe + l'id (in questo caso, del tipo id="nomeArtista"), proporzionandolo adeguatamente allo schermo
+                    if (i == 4) { //Se sto inserendo il quinto elemento, aggiungo un break line per mandare gli altri cinque elementi a capo
+                        $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[4]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'/></a><br/>");
+                    } else { // Else continuo a procedere su una riga
+                        $('div#id2').append("<a href='Artista.html' title='" + $artists[i].name + "'><img src='" + $artists[i]['image'][3]['#text'] + "' class='testingClass' id='" + $artists[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'/></a>");
                     }
                 }
             }
         },
         {
-            error: function (code, message) {
+            error: function (code, message) { //In caso di fallimento, si stampa questo
                 console.log("Oh no!");
             }
         }
@@ -121,9 +144,8 @@ function proposeTrack(trackOfInterest) {
 
 function proposeAlbum(albumOfInterest) {
     lastfm.album.search(
-        { album: albumOfInterest },  // Passando come parametro 'test', gli sto dicendo di prendere quello che 
-        //l'input chiamato "test" (riga 13 di home.html) ha "catturato dall'utente".
-        // Se tutto va a buon fine, allora...
+        { album: albumOfInterest },  // Passando come parametro 'albumOfInterest', gli sto dicendo di prendere quello che l'utente ha scritto
+                // Se tutto va a buon fine, allora...
         {
             success: function (data) {
                 $("div#id2").show();
@@ -133,7 +155,7 @@ function proposeAlbum(albumOfInterest) {
                     if (i == 4) {
                         $('div#id2').append("<a href='Album.html' title='" + $albums[i].name + "'><img src='" + $albums[4]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[4]['artist'] + "-" + $albums[4]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a><br>");
                     }
-                    else {   //<p id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + ">
+                    else {   
                         $('div#id2').append("<a href='Album.html' title='" + $albums[i].name + "'><img src='" + $albums[i]['image'][3]['#text'] + "' class='testingClass' id='" + $albums[i]['artist'] + "-" + $albums[i]['name'] + "' style=' width: 15%; margin-bottom: 0.5em;'></a>");
                     }
                 }
@@ -146,4 +168,5 @@ function proposeAlbum(albumOfInterest) {
                 //Magari far tornare indietro alla home in caso di errore ed incollare il messaggio sotto la search
             }
         });
-}       
+} 
+// Non ho commentato proposeTrack e proposeAlbum perché la loro logica è uguale a proposeArtist
