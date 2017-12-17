@@ -1,34 +1,23 @@
+/*tipo di font, altezza e posizione del titolo della home*/
 #titolo{
     color: white;
     font-size: 40px;
     font-family: cursive;
     text-align: center;
 }
-
+ /*immagine che viene caricata al caricare della pagina*/
 html { 
   background: url("../music3.jpg");
   background-size: cover;
 }
 
-#bg{
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-	
-  /* Preserve aspet ratio */
-  min-width: 100%;
-  min-height: 100%;
-}
-
-BODY{
-}
-
+/*posizionamento del logo della pagina*/
 #id1{
     text-align: center;
     align-content: center;
 }
 
-
+/*posizionamento, e misura delle immagini che verrano mostrate nel div con id=id2 come una preview*/
 #id2{
     align-content: center;
     margin: 0 auto;
@@ -38,20 +27,19 @@ BODY{
     float: right;
 }
 
+/*posizionamento di tutte gli oggetti con class=testingClass*/
 .testingClass{
     text-align: center;
     align-content: center;
 }
 
-.divTest{
-    
-}
-
+/*in questo modo la nota musicale del bottone e invisibile e senza bordo*/
 #premilo{
     background: none;
     border: none;
 }
 
+/*font, allineamento e dimensione del font dentro della barra di ricerca*/
 #searchArtists {
     /*background: url("../lupa.png") no-repeat;*/
     font-size: 15px;
@@ -63,6 +51,7 @@ BODY{
     text-align: center;
 }
 
+/*impostazioni del font del paragrafo prima del form di ricerca*/
 #sea{
     font-size: 20px;
     font-family: fantasy;
@@ -70,11 +59,12 @@ BODY{
     color: antiquewhite;
 }
 
-
+/*allineamento centrale per gli elementi dentro la form*/
 #modulo{
     text-align: center;
 }
 
+/*font, allineamento e dimensione del footer per il copyright*/
 #foot{
     text-align: right;
     margin-right: auto;
@@ -82,6 +72,7 @@ BODY{
     color: white;
 }
 
+/*dimensione e margine del logo del logo della home*/
 #logo{
     z-index: 0;
     display: block;
@@ -90,6 +81,7 @@ BODY{
     height: 44%;
 }
 
+/*colore del font dei crediti alla fine della pagina*/
 #credits{
     color: wheat;
 }
