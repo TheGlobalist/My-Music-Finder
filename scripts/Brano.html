@@ -1,0 +1,59 @@
+<HTML>
+
+<HEAD>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script type="text/javascript" src="scripts/lastfm.api.md5.js"></script>
+    <script type="text/javascript" src="scripts/lastfm.api.js"></script>
+    <script type="text/javascript" src="scripts/jquery-3.2.1.min.js"></script>
+    <TITLE>My Music Finder</TITLE>
+    <link rel="stylesheet" href="design/linkBrano.css" type="text/css">
+</HEAD>
+
+<BODY>
+    <a href="home.html" target="_parent">
+        <img src="mmflogo.png" width="115" height="120" id="logo">
+    </a>
+    <div id="id1">
+        <p id="title" align="center"></p>
+            <p id="description"></p>
+    </div>
+
+    <div class="container">
+        <div id="block1" class="col">
+            <fieldset id="fSeen">
+                <p id="albumsParagraph" align="center">
+                    <h2> Seen on... </h2>
+                </p>
+
+                <!-- Lista perché potrebbero esserci più occorrenze della canzone in altri album -->
+                <ol id="albumSong">
+
+                </ol>
+            </fieldset>
+        </div>
+
+        <div id="block2" class="col">
+            <fieldset id="top">
+                <p id="TheArtist" align="center">
+                    <h2> The Artist </h2>
+                </p>
+                <p id="artistDescription" align="center"> </p>
+            </fieldset>
+        </div>
+
+        <div id="block3" class="col">
+            <fieldset id="where">
+                <p id="WhereToBuy" align="center">
+                    <h2> Where to buy </h2>
+                </p>
+                <ol id="listaWhereToBuy">
+                </ol>
+            </fieldset>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/Brano.js"></script>
+
+</BODY>
+
+</HTML>
