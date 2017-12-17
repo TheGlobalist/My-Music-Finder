@@ -1,8 +1,10 @@
+/*immagine di sottofondo*/
 html{
     background: url("../crowd.jpg");
     background-size: cover;
 }
 
+/*allineamento e posizionamento degli oggetti dentro il div con class = container*/
 .container{
     width: 80%;
     margin-left: auto;
@@ -13,20 +15,24 @@ html{
     border-bottom-right-radius: 20px;
 }
 
+/*font del titolo dell'album*/
 #title{
     font-family: cursive;
 }
 
+/*font della descrizione dell'album*/
 #description{
     font-family: arial;
     font-weight: bold;
 }
 
+/*allineamento e posizionamento degli oggetti dentro il div con class = col, sia la tracklist che il link per acquistare l'album*/
 .col{
     float: left;
     width: 33%;
 }
 
+/*posizionamento del fieldset per la lista dei top album*/
 #topAlbum{
     margin-top: 0.5cm;
     margin-right: 14px;
@@ -35,12 +41,14 @@ html{
     font-family: serif;
 }
 
+/*posizionamento delle top ten tracks dentro il fieldset*/
 #top{
     margin-top: 0.5cm;
     margin-right: 14px;
     margin-left: 14px;
 }
 
+/*posizionamento del link per l'acquisto di un'album dentro il fieldset*/
 #compra{
     margin-top: 0.5cm;
     margin-right: 14px;
@@ -49,22 +57,19 @@ html{
     font-family: serif;
 }
 
+/*font dentro il div1*/
 #block1{
     font-family: arial;
     font-weight: bold;
 }
 
-#block2{
-}
-
-#block3{
-}
-
+/*font della lista dei top album*/
 #listaTopAlbum{
     font-family: arial;
     font-weight: bold;
 }
 
+/*font della lista dei top tracks*/
 #listaTopTracks{
     font-style: italic;
     font-family: bold;
