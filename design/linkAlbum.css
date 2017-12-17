@@ -1,48 +1,53 @@
+/*immagine di sottofondo*/
 html { 
   background: url("../cuffie.jpg");
   background-size: cover;
 }
 
-#titulo{
-    text-decoration-color: aliceblue;
-}
-
+/*font del titolo dell'album*/
 #title{
     font-family: cursive;
 }
 
+/*font della descrizione dell'album*/
 #description{
     font-family: arial;
     font-weight: bold;
     
 }
 
+/*font del div block1, especificamente per la traklist*/
 #block1{
     font-family: arial;
     font-weight: bold;
     
 }
 
+/*posizionamento del fieldset per la tracklist*/
 #canzoni{
     margin-top: 0.5cm;
     margin-right: 14px;
     margin-left: 14px;
 }
 
+/*posizionamento del fieldset per il link d'acquisto*/
 #compra{
     margin-top: 0.5cm;
 }
 
+/*font per il titolo Tracklist*/
 #track{
     font-style: oblique;
     font-family: serif;
 }
 
+/*font per il titolo Where to buy*/
 #where{
     font-style: italic;
     font-family: serif;
 }
 
+/*allineamento e posizionamento degli oggetti dentro il div con class = container*/
 .container{
     align-content: center;
     width: 80%;
@@ -54,6 +59,7 @@ html {
     border-bottom-right-radius: 20px;
 }
 
+/*allineamento e posizionamento degli oggetti dentro il div con class = col, sia la tracklist che il link per acquistare l'album*/
 .col{
     float: left;
     width: 33%;
