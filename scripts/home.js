@@ -1,4 +1,3 @@
-
 var chooser = "";
 var id = "";
 
@@ -13,11 +12,12 @@ $('html').bind('keypress', function (e) {
 
 //Al click in qualsiasi posizione del documento, su un qualsiasi oggetto che abbia come classe "testingClass", avvia la seguente funzione anonima
 $(document).on("click", " .testingClass", function () {
+    debugger;
     chooser = $("#testRadio input[type='radio']:checked").val(); //Ottiene il valore del radio button spuntato
     //Se la scelta fatta è uguale ad Artista (ovvero, l'unico che vuole un solo valore salvato nel local storage)...
     if (chooser === "Artista") {
         id = $(this).attr('id'); //Estrapolo dall'oggetto con classe "testingClass" appena clickato il suo id...
-        localStorage.artist = tmp; //...e lo metto nel localstorage
+        localStorage.artist = id; //...e lo metto nel localstorage
     } else {
         id = $(this).attr('id');  //Estrapolo dall'oggetto con classe "testingClass" appena clickato il suo id...
         var artist = id.split('-')[0];  //Stavolta è però un id composto, del tipo artista-CosaDaCercare. Qui prendo il valore di destra dell'id...
@@ -27,36 +27,12 @@ $(document).on("click", " .testingClass", function () {
     }
 });
 
-//jQuery di comodo. 
-//Sostanzialmente, controlla due cose al click sui radio e sulla nota musicale.
-$('#testRadio').click(function () {
 
-    chooser = $("#testRadio input[type='radio']:checked").val();
-    /* RADIO BUTTON */
-
-    //Se la scelta non è stata ancora fatta...
-
-    if (chooser === "") {
-        //Fa comunque saltare fuori un alert
-        alert("Inserisci un valore nella barra di ricerca");
-        return false;
-    }
-
-    /* NOTA MUSICALE */
-
-    //Se la scelta non è stata ancora fatta...
-    $('button#premilo').click(function () {
-        if (chooser === "") {
-            //Fa comunque saltare fuori un alert
-            alert("Seleziona cosa cercare");
-            return false;
-        }
-
-    //Nonostante ci sia il required nei radio button, un po' di "blocchi" in più non fanno mai male secondo me...
-    });
-
+$('button#premilo').click(function() {
+    debugger;
     var argToSearch = $('#searchArtists').val(); //Si capisce dal nome della variabile. Prende fonte dalla search bar
     //In base alla scelta, lo switch reindirizza per proporre la giusta cosa
+    chooser = $("#testRadio input[type='radio']:checked").val();
     switch (chooser) {
         case "Album":
             proposeAlbum(argToSearch);
@@ -67,10 +43,9 @@ $('#testRadio').click(function () {
         default:
             proposeArtist(argToSearch);
     }
-    //e poi, in ogni caso, inserisco l'action corrispondente a chooser nella form
-    $('form').attr('action', chooser + ".html")
+    $('form').attr('action', chooser + ".html");    
+});
 
-})
 
 //Ogni qualvolta viene premuto il bottone "Wrote Wrong", questo jQuery pulisce il contenuto del div id2
 $('input#rese').click(function () {
@@ -97,6 +72,7 @@ function proposeArtist(artistOfInterest) {
         { artist: artistOfInterest }, //Passo l'artista che mi interessa
         {
             success: function (data) { //In caso di successo, in "data" sarà contenuto un JSON di risposta
+                console.log(data);
                 $artists = data.results.artistmatches.artist; //Ne prendo quindi l'array contenente i risultati degli artisti
                 $('div#id2').show(); // mostro il div id2
                 for (var i = 0; i < 10; i++) { // e carico i primi dieci risultati, generando il title, estrapolando l'immagine e definendo la classe + l'id (in questo caso, del tipo id="nomeArtista"), proporzionandolo adeguatamente allo schermo
@@ -123,6 +99,7 @@ function proposeTrack(trackOfInterest) {
         { track: trackOfInterest },
         {
             success: function (data) {
+                console.log(data);
                 $('div#id2').show();
                 $tracks = data.results.trackmatches.track;
                 for (var i = 0; i < 10; i++) {
@@ -148,6 +125,7 @@ function proposeAlbum(albumOfInterest) {
                 // Se tutto va a buon fine, allora...
         {
             success: function (data) {
+                console.log(data);
                 $("div#id2").show();
                 $albums = data.results.albummatches.album;
                 for (var i = 0; i < 10; i++) {
