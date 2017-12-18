@@ -45,7 +45,7 @@
                 <!-- Creazione della barra di ricerca che richiede almeno due caratteri. Campo obbligatorio -->
                 <input type="search" name="test" id="searchArtists" minlength="2" placeholder="Cosa stai cercando?" required>
                 <!-- Se premuto, questo bottone porta direttamente al primo risultato considerato corretto dalle API di Last.FM -->
-                <button id="premilo" class="divTest">
+                <button id="premilo" type=button class="divTest">
                     <img src="lupa.png">
                 </button>
                 <!-- Resetta il contenuto dei radio e della search bar -->
@@ -54,7 +54,7 @@
                 <br>
                 <!-- div in cui vengono definiti i radio -->
                 <div id="testRadio">
-                    <input id="artista" type="radio" name="ric" value="Artista" required>Artista
+                    <input id="artista" type="radio" name="ric" value="Artista" required checked>Artista
                     <input id="brano" type="radio" name="ric" value="Brano"> Brano
                     <input id="album" type="radio" name="ric" value="Album">Album
                     <br>
