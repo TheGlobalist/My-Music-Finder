@@ -29,7 +29,6 @@ $(document).on("click", " .testingClass", function () {
 
 
 $('button#premilo').click(function() {
-    debugger;
     var argToSearch = $('#searchArtists').val(); //Si capisce dal nome della variabile. Prende fonte dalla search bar
     //In base alla scelta, lo switch reindirizza per proporre la giusta cosa
     chooser = $("#testRadio input[type='radio']:checked").val();
@@ -72,7 +71,7 @@ function proposeArtist(artistOfInterest) {
         { artist: artistOfInterest }, //Passo l'artista che mi interessa
         {
             success: function (data) { //In caso di successo, in "data" sarà contenuto un JSON di risposta
-                console.log(data);
+                $('div#id2').empty();
                 $artists = data.results.artistmatches.artist; //Ne prendo quindi l'array contenente i risultati degli artisti
                 $('div#id2').show(); // mostro il div id2
                 for (var i = 0; i < 10; i++) { // e carico i primi dieci risultati, generando il title, estrapolando l'immagine e definendo la classe + l'id (in questo caso, del tipo id="nomeArtista"), proporzionandolo adeguatamente allo schermo
@@ -99,7 +98,7 @@ function proposeTrack(trackOfInterest) {
         { track: trackOfInterest },
         {
             success: function (data) {
-                console.log(data);
+                $('div#id2').empty();                
                 $('div#id2').show();
                 $tracks = data.results.trackmatches.track;
                 for (var i = 0; i < 10; i++) {
@@ -125,7 +124,7 @@ function proposeAlbum(albumOfInterest) {
                 // Se tutto va a buon fine, allora...
         {
             success: function (data) {
-                console.log(data);
+                $('div#id2').empty();                
                 $("div#id2").show();
                 $albums = data.results.albummatches.album;
                 for (var i = 0; i < 10; i++) {
