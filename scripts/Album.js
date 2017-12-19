@@ -32,7 +32,7 @@ lastfm.album.getInfo(
     {
         success: function (data) {
             // Costruisco una stringa che contiene un header h1 con il titolo dell'album e il nome dell'artista
-            var title = "<h1> " + data.album.name + " (" + data.album.artist + ") " + "</h1>" + "<br />";
+            var title = "<h1> " + data.album.name + " (<a href='Artista.html'>" + data.album.artist + "</a>) " + "</h1>" + "<br />";
             image(data.album.image[3]['#text'], title); //Chiamo image passando il link all'immagine
 
             // C'è però un problema: non sempre il JSON "data" conterrà un wiki, cioè una sezione riassuntiva.
