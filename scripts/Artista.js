@@ -1,4 +1,4 @@
-//Preso in input un'immagine ed una stringa, image() crea prima un elemento nel DOM, vi aggiunge il riferimento
+//Preso in input un'immagine, image() crea prima un elemento nel DOM, vi aggiunge il riferimento
 //all'immagine passata in input (img.src = data) e poi, con jQuery, imposta l'immagine
 function image(data) {
     var img = document.createElement("IMG");
@@ -71,8 +71,11 @@ lastfm.artist.getTopAlbums(
 
             var topFive = getTopFive(data); //... con questa funzione
             for (var i = 0; i < 5; i++) { //ed aggiungo tutto con jQuery
-                $('#listaTopAlbum').append('<li> ' + topFive[i][0] + '<br/>' + "<img src='" + topFive[i][1] + "'>" + '</li><br/>');
+                $('#listaTopAlbum').append('<li> <h3>' + topFive[i][0] + '</h3><br/>' + "<a href='Album.html'><img src='" + topFive[i][1] + "'></a>" + '</li><br/>');
             }
+            $('#listaTopAlbum li').click( function() {
+                localStorage.thingToLook = $(this).find('h3').text();
+            });
 
         },
 
@@ -80,6 +83,7 @@ lastfm.artist.getTopAlbums(
 
         }
     });
+
 
 //Cerca le dieci migliori tracce...
 lastfm.artist.getTopTracks(
@@ -101,7 +105,7 @@ lastfm.artist.getTopTracks(
 //Uso una funzione di jQuery per catturare il JSON che le API di iTunes restituiscono.
 //Il link lo compongo perché, ovviamente, la ricerca varia in base all'artista che si cerca.
 //Il limite è stato impostato a 5
-$.getJSON('https://itunes.apple.com/search?term=muse&limit=5&country=it&entity=musicTrack', function (data)  {
+$.getJSON('https://itunes.apple.com/search?term=' + localStorage.artist + '&limit=5&country=it&entity=musicTrack', function (data)  {
     //Se ho successo, aggiungo un link che rimanda ad iTunes per l'acquisto in digitale
     $('#listaWhereToBuy').append("<li><a href='" + data.results[0]['artistViewUrl'] + "'> Acquista qui in formato digitale!</a></li> ");
 });

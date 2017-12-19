@@ -12,7 +12,6 @@ $('html').bind('keypress', function (e) {
 
 //Al click in qualsiasi posizione del documento, su un qualsiasi oggetto che abbia come classe "testingClass", avvia la seguente funzione anonima
 $(document).on("click", " .testingClass", function () {
-    debugger;
     chooser = $("#testRadio input[type='radio']:checked").val(); //Ottiene il valore del radio button spuntato
     //Se la scelta fatta è uguale ad Artista (ovvero, l'unico che vuole un solo valore salvato nel local storage)...
     if (chooser === "Artista") {
